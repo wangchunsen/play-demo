@@ -1,0 +1,41 @@
+@import model.Account
+@import model.enum.AccountStatus._
+
+@(accounts:List[Account])
+
+@main("Accounts"){
+<div>
+    <table class="layui-table" lay-size="sm">
+        <thead>
+        <tr>
+            <th>Passport</th>
+            <th>Status</th>
+            <th>Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(account <- accounts){
+            <tr>
+                <td>@account.passport</td>
+                <td>@account.status</td>
+                <td>
+                    @defining(account.status){status =>
+                        @if(status == Normal) {
+                            <div><a href="#">Disable</a></div>
+                        }
+                        @if(status == Disabled) {
+                            <div><a href="#">Enable</a> </div>
+                        }
+                        <div><a href="#">Delete</a></div>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="action-bar">
+        <button class="layui-btn">Add Account</button>
+    </div>
+</div>
+}

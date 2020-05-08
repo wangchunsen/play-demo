@@ -1,0 +1,41 @@
+@import viewmodel._
+
+@(userForm: Form[LoginForm])(implicit messages: Messages)
+
+@main("Welcome to Play") {
+<div class="login-container">
+    <div class="login-content">
+        <div class="header">
+            <span>Please Login</span>
+        </div>
+        @helper.form(action = routes.HomeController.postLogin(), args= 'class -> "") {
+
+            @helper.inputText(userForm("passport"),
+                '_showConstraints -> false, 'required->"required",
+                'placeholder -> "Input your passport here")
+
+            @helper.inputPassword(userForm("password"),
+                '_showConstraints -> false,
+                'required -> "required",
+                'placeholder -> "Input your password here")
+
+            @helper.checkbox(userForm("remember"),
+                '_label -> "Remember me",
+                '_class -> "checkbox",
+                '_showConstraints -> false)
+
+            @defining(userForm("rdUrl")){field=>
+                <input type="hidden" name="@field.name" value="@field.value.getOrElse("")" >
+            }
+
+            <dl>
+                <dd>
+                    <button type="submit">Login</button>
+                </dd>
+            </dl>
+            @globalError(userForm)
+
+        }
+    </div>
+</div>
+}
